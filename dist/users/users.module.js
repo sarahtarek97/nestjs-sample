@@ -6,25 +6,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
+const jwt_1 = require("@nestjs/jwt");
 const mongoose_1 = require("@nestjs/mongoose");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-const products_module_1 = require("./products/products.module");
-const users_module_1 = require("./users/users.module");
-let AppModule = class AppModule {
+const users_controller_1 = require("./users.controller");
+const users_model_1 = require("./users.model");
+const users_service_1 = require("./users.service");
+let UsersModule = class UsersModule {
 };
-AppModule = __decorate([
+UsersModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            products_module_1.ProductsModule,
-            users_module_1.UsersModule,
-            mongoose_1.MongooseModule.forRoot("mongodb://localhost:27017/nestjs-demo"),
+            mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: users_model_1.MongooseUserSchema }]),
+            jwt_1.JwtModule.register({ secret: "secret", signOptions: { expiresIn: "1d" } }),
         ],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        controllers: [users_controller_1.UsersController],
+        providers: [users_service_1.UsersService],
     })
-], AppModule);
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+], UsersModule);
+exports.UsersModule = UsersModule;
+//# sourceMappingURL=users.module.js.map
